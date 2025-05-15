@@ -8,5 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Technician extends Model
 {
     use HasFactory;
-    protected $tabla = 'technician';
+    protected $table = 'technician';
+
+    protected $fillable = [
+        'document',
+        'name',
+        'speciality',
+        'phone'
+    ];
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
 }

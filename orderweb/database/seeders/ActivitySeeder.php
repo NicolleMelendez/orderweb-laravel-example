@@ -17,13 +17,13 @@ class ActivitySeeder extends Seeder
             [
                 'description' => 'Actividad de prueba 1',
                 'hours' => 8,
-                'technician' => 1,
+                'technician_id' => 1,
                 'type_activity_id' => 1
             ],
             [
                 'description' => 'Actividad de prueba 2',
                 'hours' => 16,
-                'technician' => 1,
+                'technician_id' => 1,
                 'type_activity_id' => 2
             ]
         ]);

@@ -10,10 +10,18 @@ class OrderActivity extends Model
     use HasFactory;
         protected $table = 'order_activity';
         protected $fillable = [
-        'legalization_date',
-        'address',
-        'city',
-        'observation_id',
-        'causal_id'
+        'order_id',
+        'activity_id',
     ];
+
+    public function order()
+    {
+        return  $this->belongsTo(Order::class, 'order_id');
+    }
+
+
+    public function activity()
+    {
+        return  $this->belongsTo(Activity::class, 'activity_id');
+    }
 }
