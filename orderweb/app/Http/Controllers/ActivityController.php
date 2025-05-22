@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Causal;
+use App\Models\Activity;
+use App\Models\Technician;
+use App\Models\TypeActivity;
 use Illuminate\Http\Request;
 
-class CausalController extends Controller
+class ActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $causals = Causal::all();
-        return view('causal.index', compact('causals'));
+        $activities = Activity::all();
+        return view('activity.index', compact('activities'));
     }
 
     /**
@@ -21,7 +23,9 @@ class CausalController extends Controller
      */
     public function create()
     {
-        return view('causal.create');
+        $technicians = Technician::all();
+        $types = TypeActivity::all();
+        return view('activity.create', compact('technicians', 'types'));
     }
 
     /**
@@ -29,10 +33,9 @@ class CausalController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
-        $causal = Causal::create($request->all());
+        $activity = Activity::create($request->all());
         session()->flash('message', 'Registro creado exitosamente');
-        return redirect()->route('causal.index');
+        return redirect()->route('activity.index');
     }
 
     /**
@@ -40,7 +43,7 @@ class CausalController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -48,15 +51,17 @@ class CausalController extends Controller
      */
     public function edit(string $id)
     {
-        $causal = Causal::find($id);
-        if($causal)//la causal existe
+        $activity = Activity::find($id);
+        if($activity)//la actividad existe
         {
-            return view('causal.edit', compact('causal'));
+            $technicians = Technician::all();
+            $types = TypeActivity::all();
+            return view('activity.edit', compact('activity', 'technicians', 'types'));
         }
         else
         {
             session()->flash('warning', 'No se encuentra el registro solicitado');
-            return redirect()->route('causal.index');
+            return redirect()->route('activity.index');
         }
     }
 
@@ -65,17 +70,17 @@ class CausalController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $causal = Causal::find($id);
-        if($causal)//la causal existe
+        $activity = Activity::find($id);
+        if($activity)//la actividad existe
         {
-            $causal->update($request->all());
+            $activity->update($request->all());
             session()->flash('message', 'Registro creado exitosamnete');
         }
         else
         {
             session()->flash('warning', 'No se encuentra el registro solicitado');
         }
-        return redirect()->route('causal.index');
+        return redirect()->route('activity.index');
     }
 
     /**
@@ -83,10 +88,10 @@ class CausalController extends Controller
      */
     public function destroy(string $id)
     {
-        $causal = Causal::find($id);
-        if($causal)//la causal existe
+        $activity = Activity::find($id);
+        if($activity)//la activity existe
         {
-            $causal->delete();
+            $activity->delete();
             session()->flash('message', 'Registro eliminido exitosamnete');
         }
         else
@@ -94,6 +99,6 @@ class CausalController extends Controller
             session()->flash('warning', 'No se encuentra el registro solicitado');
         }
         
-        return redirect()->route('causal.index');
+        return redirect()->route('activity.index');
     }
 }
