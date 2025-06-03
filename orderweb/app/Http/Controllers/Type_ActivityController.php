@@ -86,7 +86,7 @@ class Type_ActivityController extends Controller
         if($validator->fails())
         {
             $errors = $validator->errors();
-            return redirect()->route('type_activity.update', $id)->withInput()->withErrors($errors);
+            return redirect()->route('type_activity.edit', $id)->withInput()->withErrors($errors);
         }
         $type_activity = TypeActivity::find($id);
         if($type_activity)//el tipo de actividad existe

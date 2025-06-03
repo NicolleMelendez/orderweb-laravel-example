@@ -2,6 +2,8 @@
 @section('title', 'Editar actividad')
 @section('header', 'Editar actividad')
 @section('content')
+    @include('templates.messages')
+
 <div class="row">
     <div class="col-lg-12 mb-4">
         <form action="{{ route('activity.update', $activity['id']) }}" method="POST">
@@ -34,9 +36,11 @@
                     <select name="type_activity_id" id="type_activity_id" class="form-control">
                         <option value="">Seleccione</option>
                         @foreach ($types as $type)
-                            <option value="{{ $type["id"] }}" 
-                            @if($type['id'] == $activity['type_activity_id']) selected @endif>
-                            {{ $type['description'] }}</option>
+                                <option value="{{ $type['id'] }}"
+                                {{-- Sin cerrar el <option> se verifica si el seleccionado es el mismo --}}
+                                {{ $type['id'] == $activity['type_activity_id'] ? 'selected' : '' }}>
+                                    {{ $type['description'] }}
+                                </option>
                         @endforeach
                     </select>
                 </div>

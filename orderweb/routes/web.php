@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CausalController;
 use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\OrderController;
@@ -20,18 +21,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/',[AuthController::class, 'index']);
+
+Route::middleware('auth')->get('/index', function () {
     return view('index');
 })->name('index');
+
 
 
 /* Route::get('/test2', function () {
     return view('test2');
 })->name('test2'); */
 
+Route::prefix('auth')->group(function(){
+    Route::get('/index', [AuthController::class, 'index'])->name('auth.index');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::get('/register', [AuthController::class, 'create'])->name('auth.register');
+    Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
+});
 
+Route::middleware('auth')->prefix('auth')->group(function(){
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+});
 
-Route::prefix('causal')->group(function(){
+Route::middleware('auth')->prefix('causal')->group(function(){
 
     Route::get('/index', [CausalController::class, 'index'])->name('causal.index');
     Route::get('/create', [CausalController::class, 'create'])->name('causal.create');
@@ -44,7 +57,7 @@ Route::prefix('causal')->group(function(){
 
 
 //type activity
-Route::prefix('type_activity')->group(function(){
+Route::middleware('auth')->prefix('type_activity')->group(function(){
 
     Route::get('/index', [Type_ActivityController::class, 'index'])->name('type_activity.index');
     Route::get('/create', [Type_ActivityController::class, 'create'])->name('type_activity.create');
@@ -56,7 +69,7 @@ Route::prefix('type_activity')->group(function(){
 
 
 //observation
-Route::prefix('observation')->group(function(){
+Route::middleware('auth')->prefix('observation')->group(function(){
 
     Route::get('/index', [ObservationController::class, 'index'])->name('observation.index');
     Route::get('/create', [ObservationController::class, 'create'])->name('observation.create');
@@ -68,7 +81,7 @@ Route::prefix('observation')->group(function(){
 
 
 //activity
-Route::prefix('activity')->group(function(){
+Route::middleware('auth')->prefix('activity')->group(function(){
 
     Route::get('/index', [ActivityController::class, 'index'])->name('activity.index');
     Route::get('/create', [ActivityController::class, 'create'])->name('activity.create');
@@ -82,7 +95,7 @@ Route::prefix('activity')->group(function(){
 
 
 //technician
-Route::prefix('technician')->group(function(){
+Route::middleware('auth')->prefix('technician')->group(function(){
 
     Route::get('/index', [TechnicianController::class, 'index'])->name('technician.index');
     Route::get('/create', [TechnicianController::class, 'create'])->name('technician.create');
@@ -93,7 +106,7 @@ Route::prefix('technician')->group(function(){
 });
 
 //order
-Route::prefix('order')->group(function(){
+Route::middleware('auth')->prefix('order')->group(function(){
 
     Route::get('/index', [OrderController::class, 'index'])->name('order.index');
     Route::get('/create', [OrderController::class, 'create'])->name('order.create');
