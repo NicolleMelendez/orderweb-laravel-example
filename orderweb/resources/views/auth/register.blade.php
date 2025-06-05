@@ -29,7 +29,7 @@
 
                                     @include('templates.messages')
 
-                                    <form class="user" action="{{ route('auth.login') }}" method="POST">
+                                    <form class="user" action="{{ route('auth.store') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
                                             <input type="text" name="name" id="name"
