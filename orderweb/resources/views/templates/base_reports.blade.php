@@ -33,7 +33,7 @@
             <strong>Fecha reporte: </strong>
             @php
                 $time = time();
-                echo date('Y-m-d(H:i:s)', $time);
+                echo date('Y-m-d (H:i:s)', $time);
             @endphp
         </p>
     </section>
@@ -46,7 +46,7 @@
 
     
     <footer id="version_text">
-        <p>Generado por OrderWeb 1.0</p>
+        <p><em>Generado por OrderWeb 1.0</em></p>
     </footer>
 
 
