@@ -25,7 +25,7 @@
 
             <br><hr>
 
-
+            <h4>Técnicos encontrados</h4>
             <table id="reportTable">
                 <thead>
                     <th>Id</th>

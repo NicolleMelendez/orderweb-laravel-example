@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Order;
 use App\Models\Technician;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -43,5 +44,27 @@ class ReportController extends Controller
         $pdf = Pdf::loadView('reports.export_activities_by_technician', $data)->setPaper('letter', 'portrait')
         ->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true]); //landscape: horizontal
         return $pdf->download('ActivitiesByTechnician' . $request['technician_id'] . '.pdf');
+    }
+
+    /**
+     * reporte que genera un listado de ordenes
+     */
+    public function export_orders_by_date(Request $request){
+        
+        $orders = Order::with(['causal', 'observation'])  // Carga las relaciones
+                   ->whereBetween('legalization_date', [
+                       $request->start_date,
+                       $request->end_date])
+                    ->get();
+
+        $data = array(
+            'orders' => $orders,
+            'start_date' => $request['start_date'],
+            'end_date' => $request['end_date']
+        ); 
+
+        $pdf = Pdf::loadView('reports.export_orders_by_date', $data)->setPaper('letter', 'portrait')
+        ->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true]); //landscape: horizontal
+        return $pdf->download('OrderByDate-' . $request['causal_id'] . '-' . $request['observation_id'] . '.pdf');
     }
 }
